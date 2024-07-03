@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'games/spinwheel/lib/main.dart' as spinwheel;
 import 'games/slot_game/lib/main.dart' as slot_game;
-import 'package:arcade_app/games/spinwheel/lib/spinthewheel.dart';
+import 'games/spinwheel/lib/spinthewheel.dart' as spin;
 import 'package:arcade_app/games/slot_game/lib/roll_slot.dart';
 import 'package:arcade_app/games/slot_game/lib/roll_slot_controller.dart';
 import 'package:arcade_app/games/slot_game/lib/scoreboard.dart';
@@ -40,7 +40,7 @@ class ArcadeHome extends StatelessWidget {
               onPressed: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => spinwheel.SpinWheel()),
+                  MaterialPageRoute(builder: (context) => spinwheel.MyApp()),
                 );
               },
               child: Text('Play Spinwheel Game'),
@@ -49,7 +49,7 @@ class ArcadeHome extends StatelessWidget {
               onPressed: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => slot_game.SlotGame()),
+                  MaterialPageRoute(builder: (context) => slot_game.MyNewApp()),
                 );
               },
               child: Text('Play Slot Game'),
@@ -60,3 +60,4 @@ class ArcadeHome extends StatelessWidget {
     );
   }
 }
+
