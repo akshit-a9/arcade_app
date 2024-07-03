@@ -1,0 +1,30 @@
+{
+  "project_info": {
+    "project_number": "286859342101",
+    "firebase_url": "https://spinwheel-ee5cd-default-rtdb.asia-southeast1.firebasedatabase.app",
+    "project_id": "spinwheel-ee5cd",
+    "storage_bucket": "spinwheel-ee5cd.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:286859342101:android:e76115d056029e573b391c",
+        "android_client_info": {
+          "package_name": "com.example.spinwheel"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDrwVWSo7nPANVN3XuJfGbf7-vJ9fAo2-o"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
