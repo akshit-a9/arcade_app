@@ -34,6 +34,8 @@ dependencies:
     path: lib/games/spinwheel
   slot_game:
     path: lib/games/slot_game
+  memory_match:
+    path: lib/games/memory_match
 
 
 dev_dependencies:
