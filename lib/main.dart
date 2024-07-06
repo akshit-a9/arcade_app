@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'games/spinwheel/lib/main.dart' as spinwheel;
 import 'games/slot_game/lib/main.dart' as slot_game;
-import 'games/memory_match/lib/main.dart' as memory_match; // Import the new game
+import 'games/memory_match/lib/main.dart' as memory_match;
 
 void main() {
   runApp(MyApp());
