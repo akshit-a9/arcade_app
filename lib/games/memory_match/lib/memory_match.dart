@@ -93,7 +93,7 @@ void _createInterstitialAd(){
       _winningAudioplayer.seek(Duration.zero);
       _winningAudioplayer.play(AssetSource('sounds/positive game win.mp3'));
     }
-    
+
     showDialog(
       context: context,
       barrierDismissible: false,
@@ -108,17 +108,20 @@ void _createInterstitialAd(){
               Text(
                 imagePath.split('/').last.split('.').first,
                 style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
-              ), // Extracting the image name
+              ),
             ],
           ),
         );
       },
     );
 
-    Future.delayed( Duration(seconds: 3), () {
-      Navigator.of(context).pop();
+    Future.delayed(Duration(seconds: 3), () {
+      if (Navigator.of(context).canPop()) {
+        Navigator.of(context).pop();
+      }
     });
   }
+
 
   void showWinnerDialog() {
     Future.delayed(Duration(seconds: 4), () {
@@ -172,7 +175,8 @@ void _createInterstitialAd(){
        _confettiController.play();
 
       Future.delayed(Duration(seconds: 3), () {
-        Navigator.of(context).pop();
+        if (Navigator.of(context).canPop()) {
+          Navigator.of(context).pop();}
         _confettiController.stop();
         _showInterstitialAd();
         resetGame(); // Reset the game after showing the dialog
@@ -204,15 +208,7 @@ void _createInterstitialAd(){
       appBar: AppBar(
         title: null,
         backgroundColor: Color.fromARGB(255, 38, 53, 93),
-         leading: IconButton(
-          icon: Icon(Icons.arrow_back, color: Color.fromARGB(255, 255, 219, 0)),
-          iconSize: 30.0,
-          onPressed: () {
-            // Add your navigation logic here
-            Navigator.pop(context); // Example: Return to the previous screen
-            // Navigator.pushNamed(context, '/home'); // Example: Navigate to the home screen if using named routes
-          },
-        ),
+
         actions: [
           IconButton(
             icon: Icon(isMuted ? Icons.volume_off : Icons.volume_up  , color: Color.fromARGB(255, 255, 219, 0)),
@@ -231,7 +227,7 @@ void _createInterstitialAd(){
         children: [
           Center(child: Image.asset("assets/images/logo.gif")),
           Container(
-            height: 160,
+            height: 156,
             width: 500,
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -243,7 +239,7 @@ void _createInterstitialAd(){
             ),
           ),
           Container(
-            height: 360,
+            height: 352,
             width: 360,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.all(Radius.circular(10)),

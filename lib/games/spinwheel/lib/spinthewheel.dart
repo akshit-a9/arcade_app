@@ -8,7 +8,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:confetti/confetti.dart';
 import 'package:audioplayers/audioplayers.dart';
 
-
 class AdHelper {
   static String get interstitialAdUnitId {
     if (Platform.isAndroid) {
@@ -30,7 +29,7 @@ class SpinWheel extends StatefulWidget {
 
 class _SpinWheelState extends State<SpinWheel> {
   final selected = BehaviorSubject<int>();
-  Map<String, dynamic> rewards= {};
+  Map<String, dynamic> rewards = {};
   List<Map<String, dynamic>> items = [];
   String buttonText = "SPIN";
   InterstitialAd? _interstitialAd;
@@ -89,9 +88,6 @@ class _SpinWheelState extends State<SpinWheel> {
       });
     }
   }
-
-
-
 
   void _createInterstitialAd() {
     InterstitialAd.load(
@@ -176,8 +172,7 @@ class _SpinWheelState extends State<SpinWheel> {
         print("No ad loaded yet, retrying...");
         _createInterstitialAd();
       }
-    }
-    else {
+    } else {
       setState(() {
         player1.play(AssetSource('sounds/wheel2.mp3'));
         selected.add(Fortune.randomInt(0, items.length));
@@ -185,6 +180,7 @@ class _SpinWheelState extends State<SpinWheel> {
       clickCount++;
     }
   }
+
   List<Color> _colors = [
     Colors.red,
     Colors.orange,
@@ -199,15 +195,15 @@ class _SpinWheelState extends State<SpinWheel> {
     return _colors[index % _colors.length];
   }
 
-
   @override
   Widget build(BuildContext context) {
     return Stack(
       children: [
         Scaffold(
-          backgroundColor:Colors.black38,
+          backgroundColor: Colors.black38,
           appBar: AppBar(
-            title: Text("Spin Your Luck",
+            title: Text(
+              "Spin Your Luck",
               style: TextStyle(
                 fontSize: 24,
                 fontWeight: FontWeight.bold,
@@ -217,7 +213,6 @@ class _SpinWheelState extends State<SpinWheel> {
             centerTitle: true,
             backgroundColor: Colors.white12,
           ),
-
           body: Center(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
@@ -226,7 +221,6 @@ class _SpinWheelState extends State<SpinWheel> {
                 if (items.isEmpty)
                   CircularProgressIndicator()
                 else if (items.length > 1)
-
                   SizedBox(
                     height: 350,
                     child: FortuneWheel(
@@ -240,7 +234,10 @@ class _SpinWheelState extends State<SpinWheel> {
                               borderColor: Colors.black,
                               borderWidth: 3,
                             ),
-                            child: Text(items[i]['name'], style: TextStyle(fontSize: 13, fontWeight: FontWeight.bold, color: Colors.black)),
+                            child: Text(
+                              items[i]['name'],
+                              style: TextStyle(fontSize: 13, fontWeight: FontWeight.bold, color: Colors.black),
+                            ),
                           ),
                         },
                       ],
@@ -281,7 +278,6 @@ class _SpinWheelState extends State<SpinWheel> {
                               backgroundColor: Colors.deepPurpleAccent,
                               contentPadding: EdgeInsets.symmetric(horizontal: 20.0),
                               content: Container(
-                                // width: 300.0,
                                 child: Column(
                                   mainAxisSize: MainAxisSize.min,
                                   children: [
@@ -292,19 +288,16 @@ class _SpinWheelState extends State<SpinWheel> {
                                         style: TextStyle(
                                             fontSize: 18,
                                             fontWeight: FontWeight.bold,
-                                            color: Colors.white
-                                        ),
+                                            color: Colors.white),
                                       ),
-                                    ]
-                                    else ...[
+                                    ] else ...[
                                       SizedBox(height: 10),
                                       Text(
                                         rewards['name'] ?? "No Name",
                                         style: TextStyle(
                                             fontSize: 18,
                                             fontWeight: FontWeight.bold,
-                                            color: Colors.white
-                                        ),
+                                            color: Colors.white),
                                       ),
                                       SizedBox(height: 10),
                                       Row(
@@ -315,8 +308,7 @@ class _SpinWheelState extends State<SpinWheel> {
                                               style: TextStyle(
                                                   fontSize: 16,
                                                   fontWeight: FontWeight.bold,
-                                                  color: Colors.white
-                                              ),
+                                                  color: Colors.white),
                                             ),
                                           ),
                                           IconButton(
@@ -347,9 +339,7 @@ class _SpinWheelState extends State<SpinWheel> {
                                   },
                                   child: Text(
                                     "Close",
-                                    style: TextStyle(
-                                        color: Colors.white
-                                    ),
+                                    style: TextStyle(color: Colors.white),
                                   ),
                                 ),
                               ],
@@ -374,14 +364,18 @@ class _SpinWheelState extends State<SpinWheel> {
                 GestureDetector(
                   onTap: _handleButtonClick,
                   child: Container(
-                    height: 40,
+                    height: 50,
                     width: 200,
                     decoration: BoxDecoration(
-                      color: Colors.deepPurpleAccent,
-                      borderRadius: BorderRadius.circular(20),
+                      gradient: LinearGradient(
+                        colors: [Colors.pink, Colors.orange],
+                        begin: Alignment.topLeft,
+                        end: Alignment.bottomRight,
+                      ),
+                      borderRadius: BorderRadius.circular(30),
                       boxShadow: [
                         BoxShadow(
-                          color: Colors.grey.withOpacity(0.1),
+                          color: Colors.black.withOpacity(0.2),
                           spreadRadius: 3,
                           blurRadius: 5,
                           offset: Offset(0, 3),
@@ -391,7 +385,7 @@ class _SpinWheelState extends State<SpinWheel> {
                     child: Center(
                       child: Text(
                         buttonText,
-                        style: TextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.bold),
+                        style: TextStyle(color: Colors.white, fontSize: 20, fontWeight: FontWeight.bold),
                       ),
                     ),
                   ),
