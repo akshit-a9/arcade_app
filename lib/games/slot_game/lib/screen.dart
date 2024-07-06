@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:slot_game/roll_slot.dart';
 import 'package:slot_game/roll_slot_controller.dart';
-import 'package:slot_game/scoreboard.dart'; 
+import 'package:slot_game/scoreboard.dart';
 
 class Assets {
   static const seventhIc = 'assets/images/777.svg';
@@ -73,7 +73,7 @@ class _MyHomePageState extends State<MyHomePage> {
       prizesList[_rollSlotController2.centerIndex],
     ];
     _scoreBoardKey.currentState?.updateScore(centerImages);
-    if (spinCounter == 50 || spinCounter == 50) {  
+    if (spinCounter == 50 || spinCounter == 50) {
       spinCounter = 0; // Reset the counter after the specific spins
     } else {
       spinCounter++;
@@ -85,19 +85,19 @@ class _MyHomePageState extends State<MyHomePage> {
     bool shouldMatch = spinCounter == 50 || spinCounter == 50;  //every 50th spin is a sure shot reward
 
     _rollSlotController.animateRandomly(
-      topIndex: shouldMatch ? index : _random.nextInt(prizesList.length),
-      centerIndex: shouldMatch ? index : _random.nextInt(prizesList.length),
-      bottomIndex: shouldMatch ? index : _random.nextInt(prizesList.length)
+        topIndex: shouldMatch ? index : _random.nextInt(prizesList.length),
+        centerIndex: shouldMatch ? index : _random.nextInt(prizesList.length),
+        bottomIndex: shouldMatch ? index : _random.nextInt(prizesList.length)
     );
     _rollSlotController1.animateRandomly(
-      topIndex: shouldMatch ? index : _random.nextInt(prizesList.length),
-      centerIndex: shouldMatch ? index : _random.nextInt(prizesList.length),
-      bottomIndex: shouldMatch ? index : _random.nextInt(prizesList.length)
+        topIndex: shouldMatch ? index : _random.nextInt(prizesList.length),
+        centerIndex: shouldMatch ? index : _random.nextInt(prizesList.length),
+        bottomIndex: shouldMatch ? index : _random.nextInt(prizesList.length)
     );
     _rollSlotController2.animateRandomly(
-      topIndex: shouldMatch ? index : _random.nextInt(prizesList.length),
-      centerIndex: shouldMatch ? index : _random.nextInt(prizesList.length),
-      bottomIndex: shouldMatch ? index : _random.nextInt(prizesList.length)
+        topIndex: shouldMatch ? index : _random.nextInt(prizesList.length),
+        centerIndex: shouldMatch ? index : _random.nextInt(prizesList.length),
+        bottomIndex: shouldMatch ? index : _random.nextInt(prizesList.length)
     );
 
     Timer(Duration(seconds: 3), () {
@@ -105,29 +105,20 @@ class _MyHomePageState extends State<MyHomePage> {
       _rollSlotController1.stop();
       _rollSlotController2.stop();
       Future.delayed( Duration(seconds: 3), () {
-            _updateScore();
-            });
+        _updateScore();
+      });
     });
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.black,
-        title: null,
-        leading: IconButton(
-          icon: Icon(Icons.arrow_back, color: Color.fromARGB(255, 255, 235, 119)),
-          iconSize: 30.0,
-          onPressed: () => Navigator.pop(context),
-        ),
-      ),
       backgroundColor: Colors.black,
       body: Stack(
         children: [
           Center(
             child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 8),
+              padding: const EdgeInsets.only(left: 8, right: 8, top: 20, bottom: 50), // Move content up by increasing top padding and adding bottom padding
               child: Column(
                 children: [
                   Container(
@@ -172,16 +163,19 @@ class _MyHomePageState extends State<MyHomePage> {
         ],
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-      floatingActionButton: ElevatedButton(
-        onPressed: _spinAllSlots,
-        style: ElevatedButton.styleFrom(
-          backgroundColor: Color.fromARGB(255, 255, 235, 119),
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(20),
+      floatingActionButton: Padding(
+        padding: const EdgeInsets.only(bottom: 20.0), // Move button up by adding bottom padding
+        child: ElevatedButton(
+          onPressed: _spinAllSlots,
+          style: ElevatedButton.styleFrom(
+            backgroundColor: Color.fromARGB(255, 255, 235, 119),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(20),
+            ),
+            padding: EdgeInsets.symmetric(horizontal: 30, vertical: 10),
           ),
-          padding: EdgeInsets.symmetric(horizontal: 30, vertical: 10),
+          child: Text('SPIN', style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold, fontSize: 20)),
         ),
-        child: Text('SPIN', style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold, fontSize: 20)),
       ),
     );
   }
