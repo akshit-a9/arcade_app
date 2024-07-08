@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'screen.dart';
+import 'package:audioplayers/audioplayers.dart';
 import 'package:cloud_firestore/cloud_firestore.dart'; // Import this if you need access to the Assets class for the image constants
 
 class ScoreBoard extends StatefulWidget {
@@ -12,7 +13,8 @@ class ScoreBoard extends StatefulWidget {
 
 class ScoreBoardState extends State<ScoreBoard> {
   int _score = 0;
-  
+  final _you_winAudioplayer = AudioPlayer();
+  final _failAudioplayer = AudioPlayer();
 
   Map<String, dynamic> rewards= {};
   List<Map<String, dynamic>> items = [];
@@ -22,6 +24,8 @@ class ScoreBoardState extends State<ScoreBoard> {
   void initState() {
     super.initState();
     _fetchRewards();
+    _you_winAudioplayer.setSourceUrl('sounds/you_win.mp3');
+    _failAudioplayer.setSourceUrl('sounds/fail.mp3');
   }
 
 
@@ -82,10 +86,16 @@ class ScoreBoardState extends State<ScoreBoard> {
       _score += points;
       // Map the score directly to the reward
       if (_score == 0) {
+        _failAudioplayer.seek(Duration.zero);
+        _failAudioplayer.play(AssetSource('sounds/fail.mp3'));
         rewards = items.firstWhere((item) => item['value'] == 0, /*orElse: () => {"name": "Better Luck next time", "value": 0, "image": "https://media.giphy.com/media/RAquh63pTB2PerLhud/giphy.gif?cid=790b7611j2jvza4jigug2tb539his7mp1nwrvnkq3lvpzrva&ep=v1_stickers_search&rid=giphy.gif&ct=s"}*/);
       } else if (_score == 10) {
+        _you_winAudioplayer.seek(Duration.zero);
+        _you_winAudioplayer.play(AssetSource('sounds/you_win.mp3'));
         rewards = items.firstWhere((item) => item['value'] == 10,/* orElse: () => {"name": "10 Points (coupon not visible)", "value": 10, "image":"https://www.freepnglogos.com/images/flipkart-logo-39907.html"}*/);
       } else if (_score == 20) {
+        _you_winAudioplayer.seek(Duration.zero);
+        _you_winAudioplayer.play(AssetSource('sounds/you_win.mp3'));
         rewards = items.firstWhere((item) => item['value'] == 20,/* orElse: () => {"name": "20 Points (coupon not visible)", "value": 20, "image":"https://www.freepnglogos.com/images/logo-myntra-41464.html"}*/);
       } else {
         rewards = {"name": "Better Luck next time", "value": 0, "image": "https://media.giphy.com/media/RAquh63pTB2PerLhud/giphy.gif?cid=790b7611j2jvza4jigug2tb539his7mp1nwrvnkq3lvpzrva&ep=v1_stickers_search&rid=giphy.gif&ct=s"};
