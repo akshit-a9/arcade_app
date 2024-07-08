@@ -6,6 +6,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:slot_game/roll_slot.dart';
 import 'package:slot_game/roll_slot_controller.dart';
 import 'package:slot_game/scoreboard.dart';
+import 'package:audioplayers/audioplayers.dart';
 
 class Assets {
   static const seventhIc = 'assets/images/777.svg';
@@ -57,6 +58,7 @@ class _MyHomePageState extends State<MyHomePage> {
     Assets.lemonIc,
     Assets.watermelonIc,
   ];
+  final _slotspinAudioplayer = AudioPlayer();
 
   int spinCounter = 0;
   Random _random = Random();
@@ -64,6 +66,7 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   void initState() {
     super.initState();
+    _slotspinAudioplayer.setSourceUrl('sounds/slotspin.mp3'); 
   }
 
   void _updateScore() {
@@ -81,6 +84,8 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   void _spinAllSlots() {
+    _slotspinAudioplayer.seek(Duration.zero);
+    _slotspinAudioplayer.play(AssetSource('sounds/slotspin.mp3'));
     int index = _random.nextInt(prizesList.length);
     bool shouldMatch = spinCounter == 50 || spinCounter == 50;  //every 50th spin is a sure shot reward
 
