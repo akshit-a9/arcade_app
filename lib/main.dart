@@ -31,59 +31,76 @@ class ArcadeHome extends StatelessWidget {
             fit: BoxFit.cover,
           ),
         ),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: <Widget>[
-            SizedBox(height: 50),
-            Center(
-              child: Text(
-                'Arcade',
-                style: TextStyle(
-                  fontSize: 40,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.white,
+        child: CustomScrollView(
+          slivers: <Widget>[
+            SliverToBoxAdapter(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: <Widget>[
+                  SizedBox(height: 50),
+                  Center(
+                    child: Text(
+                      'Arcade',
+                      style: TextStyle(
+                        fontSize: 40,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white,
+                      ),
+                    ),
+                  ),
+                  SizedBox(height: 20),
+                ],
+              ),
+            ),
+            SliverPadding(
+              padding: EdgeInsets.all(16.0),
+              sliver: SliverToBoxAdapter(
+                child: Text(
+                  'Featured Games',
+                  style: TextStyle(
+                    fontSize: 24,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white,
+                  ),
                 ),
               ),
             ),
-            SizedBox(height: 20),
-            Expanded(
-              child: SingleChildScrollView(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    buildSectionTitle('Featured Games'),
-                    buildGameCarousel(context, [
-                      buildGameButton(context, 'Spin&Win', 'assets/images/logo_1.png', spinwheel.MyApp()),
-                      buildGameButton(context, 'GoldenSlots', 'assets/images/logo_2.png', slot_game.MyNewApp()),
-                      buildGameButton(context, 'Match Master', 'assets/images/logo_3.png', memory_match.MyApp()),
-                      buildGameButton(context, 'Drive Through', 'assets/images/logo_placeholder.png', null),
-                    ]),
-                    buildSectionTitle('All Games'),
-                    buildGameGrid(context, [
-                      buildGameButton(context, 'Spin&Win', 'assets/images/logo_1.png', spinwheel.MyApp()),
-                      buildGameButton(context, 'GoldenSlots', 'assets/images/logo_2.png', slot_game.MyNewApp()),
-                      buildGameButton(context, 'Match Master', 'assets/images/logo_3.png', memory_match.MyApp()),
-                      buildGameButton(context, 'Drive Through', 'assets/images/logo_placeholder.png', null),
-                    ]),
-                  ],
+            SliverToBoxAdapter(
+              child: buildGameCarousel(context, [
+                buildGameButton(context, 'Spin&Win', 'assets/images/logo_1.png', spinwheel.MyApp()),
+                buildGameButton(context, 'GoldenSlots', 'assets/images/logo_2.png', slot_game.MyNewApp()),
+                buildGameButton(context, 'Match Master', 'assets/images/logo_3.png', memory_match.MyApp()),
+                buildGameButton(context, 'Drive Through', 'assets/images/logo_placeholder.png', null),
+              ]),
+            ),
+            SliverPadding(
+              padding: EdgeInsets.all(16.0),
+              sliver: SliverToBoxAdapter(
+                child: Text(
+                  'All Games',
+                  style: TextStyle(
+                    fontSize: 24,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white,
+                  ),
                 ),
+              ),
+            ),
+            SliverPadding(
+              padding: const EdgeInsets.all(8.0),
+              sliver: SliverGrid.count(
+                crossAxisCount: 2,
+                crossAxisSpacing: 20,
+                mainAxisSpacing: 20,
+                children: [
+                  buildGameButton(context, 'Spin&Win', 'assets/images/logo_1.png', spinwheel.MyApp()),
+                  buildGameButton(context, 'GoldenSlots', 'assets/images/logo_2.png', slot_game.MyNewApp()),
+                  buildGameButton(context, 'Match Master', 'assets/images/logo_3.png', memory_match.MyApp()),
+                  buildGameButton(context, 'Drive Through', 'assets/images/logo_placeholder.png', null),
+                ],
               ),
             ),
           ],
-        ),
-      ),
-    );
-  }
-
-  Widget buildSectionTitle(String title) {
-    return Padding(
-      padding: const EdgeInsets.all(16.0),
-      child: Text(
-        title,
-        style: TextStyle(
-          fontSize: 24,
-          fontWeight: FontWeight.bold,
-          color: Colors.white,
         ),
       ),
     );
@@ -98,19 +115,6 @@ class ArcadeHome extends StatelessWidget {
           padding: const EdgeInsets.all(8.0),
           child: gameButton,
         )).toList(),
-      ),
-    );
-  }
-
-  Widget buildGameGrid(BuildContext context, List<Widget> gameButtons) {
-    return Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: GridView.count(
-        shrinkWrap: true,
-        crossAxisCount: 2,
-        crossAxisSpacing: 20,
-        mainAxisSpacing: 20,
-        children: gameButtons,
       ),
     );
   }
