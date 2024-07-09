@@ -36,11 +36,13 @@ dependencies:
     path: lib/games/slot_game
   memory_match:
     path: lib/games/memory_match
+  audioplayers: ^6.0.0
 
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
+  flutter_launcher_icons: ^0.13.1
 
 
 
@@ -59,6 +61,12 @@ flutter:
   assets:
     - assets/images/
     - assets/sounds/
+    - assets/music/background_music.mp3
+
+flutter_icons:
+  android: true
+  ios: true
+  image_path: "assets/images/app_icon.png"
 
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in
