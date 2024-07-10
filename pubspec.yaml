@@ -38,6 +38,7 @@ dependencies:
     path: lib/games/memory_match
   audioplayers: ^6.0.0
   cupertino_icons: ^1.0.6
+  video_player: ^2.2.14
 
 
 dev_dependencies:
@@ -63,6 +64,7 @@ flutter:
     - assets/images/
     - assets/sounds/
     - assets/music/background_music.mp3
+    - assets/splash_video.mp4
   
   uses-material-design: true
 

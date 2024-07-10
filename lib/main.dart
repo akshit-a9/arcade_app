@@ -3,6 +3,8 @@ import 'package:audioplayers/audioplayers.dart';
 import 'games/spinwheel/lib/main.dart' as spinwheel;
 import 'games/slot_game/lib/main.dart' as slot_game;
 import 'games/memory_match/lib/main.dart' as memory_match;
+import 'package:flutter/material.dart';
+import 'package:video_player/video_player.dart';
 
 void main() {
   runApp(MyApp());
@@ -20,6 +22,55 @@ class MyApp extends StatelessWidget {
     );
   }
 }
+
+// class VideoSplashScreen extends StatefulWidget {
+//   @override
+//   _VideoSplashScreenState createState() => _VideoSplashScreenState();
+// }
+//
+// class _VideoSplashScreenState extends State<VideoSplashScreen> {
+//   VideoPlayerController? _controller;
+//
+//   @override
+//   void initState() {
+//     super.initState();
+//     _controller = VideoPlayerController.asset('assets/splash_video.mp4')
+//       ..initialize().then((_) {
+//         setState(() {});
+//         _controller!.play();
+//         _controller!.setLooping(false);
+//         _controller!.addListener(checkVideo);
+//       });
+//   }
+//
+//   void checkVideo() {
+//     if (_controller!.value.position == _controller!.value.duration) {
+//       Navigator.of(context).pushReplacement(MaterialPageRoute(
+//         builder: (context) => ArcadeHome(), // Your main screen
+//       ));
+//     }
+//   }
+//
+//   @override
+//   void dispose() {
+//     _controller!.dispose();
+//     super.dispose();
+//   }
+//
+//   @override
+//   Widget build(BuildContext context) {
+//     return Scaffold(
+//       body: Center(
+//         child: _controller!.value.isInitialized
+//             ? AspectRatio(
+//           aspectRatio: _controller!.value.aspectRatio,
+//           child: VideoPlayer(_controller!),
+//         )
+//             : Container(),
+//       ),
+//     );
+//   }
+// }
 
 class ArcadeHome extends StatefulWidget {
   @override
