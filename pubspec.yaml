@@ -37,6 +37,7 @@ dependencies:
   memory_match:
     path: lib/games/memory_match
   audioplayers: ^6.0.0
+  cupertino_icons: ^1.0.6
 
 
 dev_dependencies:
@@ -62,6 +63,8 @@ flutter:
     - assets/images/
     - assets/sounds/
     - assets/music/background_music.mp3
+  
+  uses-material-design: true
 
 flutter_icons:
   android: true
@@ -71,7 +74,7 @@ flutter_icons:
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in
   # the material Icons class.
-  uses-material-design: true
+  #uses-material-design: true
 
   # To add assets to your application, add an assets section, like this:
   # assets:
