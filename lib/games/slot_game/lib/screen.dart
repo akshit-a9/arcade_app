@@ -76,7 +76,7 @@ class _MyHomePageState extends State<MyHomePage> {
       prizesList[_rollSlotController2.centerIndex],
     ];
     _scoreBoardKey.currentState?.updateScore(centerImages);
-    if (spinCounter == 50 || spinCounter == 50) {
+    if (spinCounter == 7 || spinCounter == 7) {
       spinCounter = 0; // Reset the counter after the specific spins
     } else {
       spinCounter++;
@@ -87,7 +87,7 @@ class _MyHomePageState extends State<MyHomePage> {
     _slotspinAudioplayer.seek(Duration.zero);
     _slotspinAudioplayer.play(AssetSource('sounds/slotspin.mp3'));
     int index = _random.nextInt(prizesList.length);
-    bool shouldMatch = spinCounter == 50 || spinCounter == 50;  //every 50th spin is a sure shot reward
+    bool shouldMatch = spinCounter == 7 || spinCounter == 7;  //every 7th spin is a sure shot reward
 
     _rollSlotController.animateRandomly(
         topIndex: shouldMatch ? index : _random.nextInt(prizesList.length),
