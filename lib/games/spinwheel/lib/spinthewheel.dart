@@ -53,7 +53,8 @@ class _SpinWheelState extends State<SpinWheel> {
 
   Future<void> _fetchRewards() async {
     try {
-      QuerySnapshot querySnapshot = await FirebaseFirestore.instance.collection('Rewards').get();
+      QuerySnapshot querySnapshot = await FirebaseFirestore.instance.collection(
+          'Rewards').get();
       List<Map<String, dynamic>> fetchedItems = querySnapshot.docs.map((doc) {
         Map<String, dynamic> data = doc.data() as Map<String, dynamic>;
         return {
@@ -67,9 +68,24 @@ class _SpinWheelState extends State<SpinWheel> {
       if (fetchedItems.isEmpty) {
         // Provide some default rewards if none are found in Firestore
         fetchedItems = [
-          {"name": "Better Luck next time", "value": 0, "image": "https://example.com/default_image.png", "coupon": "No Coupon"},
-          {"name": "10 Points", "value": 10, "image": "https://example.com/10_points.png", "coupon": "COUPON10"},
-          {"name": "20 Points", "value": 20, "image": "https://example.com/20_points.png", "coupon": "COUPON20"},
+          {
+            "name": "Better Luck next time",
+            "value": 0,
+            "image": "https://example.com/default_image.png",
+            "coupon": "No Coupon"
+          },
+          {
+            "name": "10 Points",
+            "value": 10,
+            "image": "https://example.com/10_points.png",
+            "coupon": "COUPON10"
+          },
+          {
+            "name": "20 Points",
+            "value": 20,
+            "image": "https://example.com/20_points.png",
+            "coupon": "COUPON20"
+          },
         ];
       }
 
@@ -81,9 +97,24 @@ class _SpinWheelState extends State<SpinWheel> {
       // Provide some default rewards in case of an error
       setState(() {
         items = [
-          {"name": "Better Luck next time", "value": 0, "image": "https://example.com/default_image.png", "coupon": "No Coupon"},
-          {"name": "10 Points", "value": 10, "image": "https://example.com/10_points.png", "coupon": "COUPON10"},
-          {"name": "20 Points", "value": 20, "image": "https://example.com/20_points.png", "coupon": "COUPON20"},
+          {
+            "name": "Better Luck next time",
+            "value": 0,
+            "image": "https://example.com/default_image.png",
+            "coupon": "No Coupon"
+          },
+          {
+            "name": "10 Points",
+            "value": 10,
+            "image": "https://example.com/10_points.png",
+            "coupon": "COUPON10"
+          },
+          {
+            "name": "20 Points",
+            "value": 20,
+            "image": "https://example.com/20_points.png",
+            "coupon": "COUPON20"
+          },
         ];
       });
     }
@@ -201,165 +232,176 @@ class _SpinWheelState extends State<SpinWheel> {
       children: [
         Scaffold(
           backgroundColor: Colors.black38,
-          appBar: AppBar(
-            title: Text(
-              "Spin Your Luck",
-              style: TextStyle(
-                fontSize: 24,
-                fontWeight: FontWeight.bold,
-                color: Colors.white,
-              ),
-            ),
-            centerTitle: true,
-            backgroundColor: Colors.white12,
-          ),
           body: Center(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
+                Padding(
+                  padding: const EdgeInsets.only(top: 10.0), // Move the GIF up
+                  child: Image.asset(
+                    'assets/images/Spinwheel.gif',
+                    height: 100, // Increased height
+                    width: 320, // Increased width
+                  ),
+                ),
                 if (items.isEmpty)
                   CircularProgressIndicator()
-                else if (items.length > 1)
-                  SizedBox(
-                    height: 350,
-                    child: FortuneWheel(
-                      selected: selected.stream,
-                      animateFirst: false,
-                      items: [
-                        for (int i = 0; i < items.length; i++) ...<FortuneItem>{
-                          FortuneItem(
-                            style: FortuneItemStyle(
-                              color: _getColor(i),
-                              borderColor: Colors.black,
-                              borderWidth: 3,
-                            ),
-                            child: Text(
-                              items[i]['name'],
-                              style: TextStyle(fontSize: 13, fontWeight: FontWeight.bold, color: Colors.black),
-                            ),
-                          ),
-                        },
-                      ],
-                      onAnimationEnd: () {
-                        player1.pause();
-                        setState(() {
-                          rewards = items[selected.value];
-                        });
-                        print(rewards);
-                        if (rewards['value'] == 0 || rewards['name'].toLowerCase().contains('better luck next time')) {
-                          player3.play(AssetSource('sounds/lose.mp3'));
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(
-                              content: Text("Better luck next time!"),
-                              backgroundColor: Colors.red,
-                            ),
-                          );
-                        } else {
-                          _controller.play();
-                          player2.play(AssetSource('sounds/win.mp3'));
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(
-                              content: Text("You just won ${rewards['name']}"),
-                              backgroundColor: Colors.blueAccent,
-                              behavior: SnackBarBehavior.floating,
-                              margin: EdgeInsets.all(50),
-                              elevation: 30,
-                            ),
-                          );
-                        }
-                        showDialog(
-                          context: context,
-                          builder: (BuildContext context) {
-                            return AlertDialog(
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.all(Radius.circular(20.0)),
+                else
+                  if (items.length > 1)
+                    SizedBox(
+                      height: 350,
+                      child: FortuneWheel(
+                        selected: selected.stream,
+                        animateFirst: false,
+                        items: [
+                          for (int i = 0; i < items.length; i++) ...<
+                              FortuneItem>{
+                            FortuneItem(
+                              style: FortuneItemStyle(
+                                color: _getColor(i),
+                                borderColor: Colors.black,
+                                borderWidth: 3,
                               ),
-                              backgroundColor: Colors.deepPurpleAccent,
-                              contentPadding: EdgeInsets.symmetric(horizontal: 20.0),
-                              content: Container(
-                                child: Column(
-                                  mainAxisSize: MainAxisSize.min,
-                                  children: [
-                                    if (rewards['value'] == 0 || rewards['name'].toLowerCase().contains('better luck next time')) ...[
-                                      SizedBox(height: 10),
-                                      Text(
-                                        rewards['name'] ?? "No Name",
-                                        style: TextStyle(
-                                            fontSize: 18,
-                                            fontWeight: FontWeight.bold,
-                                            color: Colors.white),
-                                      ),
-                                    ] else ...[
-                                      SizedBox(height: 10),
-                                      Text(
-                                        rewards['name'] ?? "No Name",
-                                        style: TextStyle(
-                                            fontSize: 18,
-                                            fontWeight: FontWeight.bold,
-                                            color: Colors.white),
-                                      ),
-                                      SizedBox(height: 10),
-                                      Row(
-                                        children: [
-                                          Expanded(
-                                            child: Text(
-                                              "Coupon: ${rewards['coupon']}",
-                                              style: TextStyle(
-                                                  fontSize: 16,
-                                                  fontWeight: FontWeight.bold,
-                                                  color: Colors.white),
-                                            ),
+                              child: Text(
+                                items[i]['name'],
+                                style: TextStyle(fontSize: 13,
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.black),
+                              ),
+                            ),
+                          },
+                        ],
+                        onAnimationEnd: () {
+                          player1.pause();
+                          setState(() {
+                            rewards = items[selected.value];
+                          });
+                          print(rewards);
+                          if (rewards['value'] == 0 ||
+                              rewards['name'].toLowerCase().contains(
+                                  'better luck next time')) {
+                            player3.play(AssetSource('sounds/lose.mp3'));
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(
+                                content: Text("Better luck next time!"),
+                                backgroundColor: Colors.red,
+                              ),
+                            );
+                          } else {
+                            _controller.play();
+                            player2.play(AssetSource('sounds/win.mp3'));
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(
+                                content: Text(
+                                    "You just won ${rewards['name']}"),
+                                backgroundColor: Colors.blueAccent,
+                                behavior: SnackBarBehavior.floating,
+                                margin: EdgeInsets.all(50),
+                                elevation: 30,
+                              ),
+                            );
+                          }
+                          showDialog(
+                            context: context,
+                            builder: (BuildContext context) {
+                              return AlertDialog(
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.all(
+                                      Radius.circular(20.0)),
+                                ),
+                                backgroundColor: Colors.deepPurpleAccent,
+                                contentPadding: EdgeInsets.symmetric(
+                                    horizontal: 20.0),
+                                content: Container(
+                                  child: Column(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      if (rewards['value'] == 0 ||
+                                          rewards['name']
+                                              .toLowerCase()
+                                              .contains(
+                                              'better luck next time')) ...[
+                                        SizedBox(height: 10),
+                                        Text(
+                                          rewards['name'] ?? "No Name",
+                                          style: TextStyle(
+                                              fontSize: 18,
+                                              fontWeight: FontWeight.bold,
+                                              color: Colors.white),
+                                        ),
+                                      ] else
+                                        ...[
+                                          SizedBox(height: 10),
+                                          Text(
+                                            rewards['name'] ?? "No Name",
+                                            style: TextStyle(
+                                                fontSize: 18,
+                                                fontWeight: FontWeight.bold,
+                                                color: Colors.white),
                                           ),
-                                          IconButton(
-                                            icon: Icon(
-                                              Icons.copy,
-                                              color: Colors.white,
-                                            ),
-                                            onPressed: () {
-                                              Clipboard.setData(ClipboardData(text: rewards['coupon']));
-                                              ScaffoldMessenger.of(context).showSnackBar(
-                                                SnackBar(
-                                                  content: Text("Coupon copied to clipboard!"),
-                                                  backgroundColor: Colors.blue,
+                                          SizedBox(height: 10),
+                                          Row(
+                                            children: [
+                                              Expanded(
+                                                child: Text(
+                                                  "Coupon: ${rewards['coupon']}",
+                                                  style: TextStyle(
+                                                      fontSize: 16,
+                                                      fontWeight: FontWeight
+                                                          .bold,
+                                                      color: Colors.white),
                                                 ),
-                                              );
-                                            },
+                                              ),
+                                              IconButton(
+                                                icon: Icon(
+                                                  Icons.copy,
+                                                  color: Colors.white,
+                                                ),
+                                                onPressed: () {
+                                                  Clipboard.setData(
+                                                      ClipboardData(
+                                                          text: rewards['coupon']));
+                                                  ScaffoldMessenger.of(context)
+                                                      .showSnackBar(
+                                                    SnackBar(
+                                                      content: Text(
+                                                          "Coupon copied to clipboard!"),
+                                                      backgroundColor: Colors
+                                                          .blue,
+                                                    ),
+                                                  );
+                                                },
+                                              ),
+                                            ],
                                           ),
                                         ],
-                                      ),
                                     ],
-                                  ],
-                                ),
-                              ),
-                              actions: [
-                                TextButton(
-                                  onPressed: () {
-                                    Navigator.of(context).pop();
-                                  },
-                                  child: Text(
-                                    "Close",
-                                    style: TextStyle(color: Colors.white),
                                   ),
                                 ),
-                              ],
-                            );
-                          },
-                        );
-                      },
-                      indicators: <FortuneIndicator>[
-                        FortuneIndicator(
-                          alignment: Alignment.center,
-                          child: RoundIndicator(color: Colors.red),
-                        ),
-                      ],
+                                actions: [
+                                  TextButton(
+                                    onPressed: () {
+                                      Navigator.of(context).pop();
+                                    },
+                                    child: Text(
+                                      "Close",
+                                      style: TextStyle(color: Colors.white),
+                                    ),
+                                  ),
+                                ],
+                              );
+                            },
+                          );
+                        },
+                        indicators: <FortuneIndicator>[
+                          FortuneIndicator(
+                            alignment: Alignment.center,
+                            child: RoundIndicator(color: Colors.red),
+                          ),
+                        ],
+                      ),
                     ),
-                  ),
-                SizedBox(height: 40),
-                Text(
-                  "Play now to reveal your prize",
-                  style: TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.bold),
-                ),
                 SizedBox(height: 40),
                 GestureDetector(
                   onTap: _handleButtonClick,
@@ -385,7 +427,9 @@ class _SpinWheelState extends State<SpinWheel> {
                     child: Center(
                       child: Text(
                         buttonText,
-                        style: TextStyle(color: Colors.white, fontSize: 20, fontWeight: FontWeight.bold),
+                        style: TextStyle(color: Colors.white,
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold),
                       ),
                     ),
                   ),
@@ -404,7 +448,7 @@ class _SpinWheelState extends State<SpinWheel> {
   }
 }
 
-class RoundIndicator extends StatelessWidget {
+  class RoundIndicator extends StatelessWidget {
   final Color color;
 
   const RoundIndicator({Key? key, required this.color}) : super(key: key);

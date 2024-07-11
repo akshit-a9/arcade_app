@@ -133,7 +133,7 @@ class _MyHomePageState extends State<MyHomePage> {
                       color: Colors.black,
                       borderRadius: BorderRadius.circular(16.0),
                     ),
-                    child: Image.asset("assets/images/Slot MachineNEW.gif"),
+                    child: Image.asset("assets/images/SlotMachineTemp.gif"),
                   ),
                   SizedBox(height: 10),
                   Container(
