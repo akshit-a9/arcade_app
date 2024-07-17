@@ -138,7 +138,7 @@ packages:
     source: hosted
     version: "1.1.1"
   cloud_firestore:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: cloud_firestore
       sha256: "240c1c3598e62ad58ee665b6df9c65172d2fbe4742770c21ed060e013cb8e037"
@@ -170,7 +170,7 @@ packages:
     source: hosted
     version: "1.18.0"
   confetti:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: confetti
       sha256: "979aafde2428c53947892c95eb244466c109c129b7eee9011f0a66caaca52267"
@@ -242,7 +242,7 @@ packages:
     source: hosted
     version: "7.0.0"
   firebase_core:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: firebase_core
       sha256: "5159984ce9b70727473eb388394650677c02c925aaa6c9439905e1f30966a4d5"
@@ -279,7 +279,7 @@ packages:
     source: sdk
     version: "0.0.0"
   flutter_fortune_wheel:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: flutter_fortune_wheel
       sha256: "2d8515483762f6f03766f655d88e1fb20bca947b9c8722dfd91c51aca2468596"
@@ -319,7 +319,7 @@ packages:
     source: hosted
     version: "2.4.1"
   flutter_svg:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: flutter_svg
       sha256: "7b4ca6cf3304575fe9c8ec64813c8d02ee41d2afe60bcfe0678bcb5375d596a2"
@@ -337,7 +337,7 @@ packages:
     source: sdk
     version: "0.0.0"
   google_mobile_ads:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: google_mobile_ads
       sha256: e2d18992d30b2be77cb6976b931112fc3c4612feffb5eb7a8b036bd7a64934da
@@ -353,7 +353,7 @@ packages:
     source: hosted
     version: "0.15.4"
   http:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: http
       sha256: "761a297c042deedc1ffbb156d6e2af13886bb305c2a343a4d972504cd67dd938"
@@ -377,7 +377,7 @@ packages:
     source: hosted
     version: "4.2.0"
   infinite_carousel:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: infinite_carousel
       sha256: "572967b028f4803e5f4be9adee5760b6c4834eb6912b0f2292f2d93a51912ba0"
@@ -440,13 +440,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.8.0"
-  memory_match:
-    dependency: "direct main"
-    description:
-      path: "lib/games/memory_match"
-      relative: true
-    source: path
-    version: "1.0.0+1"
   meta:
     dependency: transitive
     description:
@@ -552,7 +545,7 @@ packages:
     source: hosted
     version: "3.2.1"
   rxdart:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: rxdart
       sha256: "0c7c0cedd93788d996e33041ffecda924cc54389199cde4e6a34b440f50044cb"
@@ -564,13 +557,6 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.99"
-  slot_game:
-    dependency: "direct main"
-    description:
-      path: "lib/games/slot_game"
-      relative: true
-    source: path
-    version: "1.0.0+1"
   source_span:
     dependency: transitive
     description:
@@ -579,13 +565,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.10.0"
-  spinwheel:
-    dependency: "direct main"
-    description:
-      path: "lib/games/spinwheel"
-      relative: true
-    source: path
-    version: "1.0.0+1"
   sprintf:
     dependency: transitive
     description:
@@ -699,7 +678,7 @@ packages:
     source: hosted
     version: "2.1.4"
   vibration:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: vibration
       sha256: "06588a845a4ebc73ab7ff7da555c2b3dbcd9676164b5856a38bf0b2287f1045d"

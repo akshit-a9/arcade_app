@@ -233,7 +233,6 @@ class _SpinWheelState extends State<SpinWheel> {
         Scaffold(
           backgroundColor: Colors.black38,
           appBar: AppBar(
-            backgroundColor: Colors.black38,
             leading: IconButton(
               icon: Icon(Icons.arrow_back),
               onPressed: () => Navigator.of(context).pop(),
