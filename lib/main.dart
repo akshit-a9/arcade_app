@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:audioplayers/audioplayers.dart';
 import 'package:video_player/video_player.dart';
-// import 'games/spinwheel/lib/main.dart' as spinwheel;
-// import 'games/slot_game/lib/main.dart' as slot_game;
-// import 'games/memory_match/lib/main.dart' as memory_match;
 import 'games/SM/main.dart' as slot_game;
 import 'games/SW//main.dart' as spinwheel;
 import 'games/MM/main.dart' as memory_match;
