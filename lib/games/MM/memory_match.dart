@@ -208,6 +208,15 @@ void _createInterstitialAd(){
       appBar: AppBar(
         title: null,
         backgroundColor: Color.fromARGB(255, 38, 53, 93),
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back, color: Color.fromARGB(255, 255, 219, 0)),
+          iconSize: 30.0,
+          onPressed: () {
+            // Add your navigation logic here
+            Navigator.pop(context); // Example: Return to the previous screen
+            // Navigator.pushNamed(context, '/home'); // Example: Navigate to the home screen if using named routes
+          },
+        ),
 
         actions: [
           IconButton(

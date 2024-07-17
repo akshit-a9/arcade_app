@@ -136,7 +136,7 @@ class _MyHomePageState extends State<MyHomePage> {
         children: [
           Center(
             child: Padding(
-              padding: const EdgeInsets.only(left: 8, right: 8, top: 20, bottom: 50), // Move content up by increasing top padding and adding bottom padding
+              padding: const EdgeInsets.only(left: 8, right: 8, top: 0, bottom: 50), // Move content up by increasing top padding and adding bottom padding
               child: Column(
                 children: [
                   Container(
