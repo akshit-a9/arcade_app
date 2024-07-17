@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:audioplayers/audioplayers.dart';
 import 'package:video_player/video_player.dart';
-import 'games/spinwheel/lib/main.dart' as spinwheel;
-import 'games/slot_game/lib/main.dart' as slot_game;
-import 'games/memory_match/lib/main.dart' as memory_match;
+// import 'games/spinwheel/lib/main.dart' as spinwheel;
+// import 'games/slot_game/lib/main.dart' as slot_game;
+// import 'games/memory_match/lib/main.dart' as memory_match;
+import 'games/SM/main.dart' as slot_game;
+import 'games/SW//main.dart' as spinwheel;
+import 'games/MM/main.dart' as memory_match;
 
 void main() {
   runApp(MyApp());
@@ -106,33 +109,42 @@ class _ArcadeHomeState extends State<ArcadeHome> {
   }
 
   void navigateToGame(BuildContext context, Widget gameApp) async {
+    // Show the splash dialog
     showDialog(
       context: context,
       barrierDismissible: false,
-      builder: (BuildContext context) {
+      builder: (BuildContext dialogContext) {  // Use a different context name to avoid confusion
         return Dialog(
           backgroundColor: Colors.transparent,
-          insetPadding: EdgeInsets.all(0),  // Removes any default padding from the dialog
+          insetPadding: EdgeInsets.all(0),
           child: Container(
-            width: MediaQuery.of(context).size.width,  // Set width to fill the screen
-            height: MediaQuery.of(context).size.height,  // Set height to fill the screen
+            width: MediaQuery.of(dialogContext).size.width,
+            height: MediaQuery.of(dialogContext).size.height,
             decoration: BoxDecoration(
               image: DecorationImage(
                 image: AssetImage('assets/images/splash_image.png'),
-                fit: BoxFit.cover,  // Ensures the image covers the full container
+                fit: BoxFit.cover,
               ),
             ),
           ),
         );
       },
     );
+
+    // Wait for 2 seconds
     await Future.delayed(Duration(seconds: 2));
-    Navigator.of(context).pop(); // Close the image dialog
-    Navigator.push(
-      context,
-      MaterialPageRoute(builder: (context) => gameApp),
-    );
+
+    // Close the dialog using the dialog's context
+    Navigator.of(context, rootNavigator: true).pop();  // Ensure the dialog is closed
+
+    // Push the new game screen onto the navigator stack
+    Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext context) => gameApp));
+
+    // This print won't be very helpful as toString() does not provide details about the stack
+    // If you want to see the current stack, you'd need to use debugging tools or set breakpoints
+    print("Navigated to game");
   }
+
 
 
   @override
