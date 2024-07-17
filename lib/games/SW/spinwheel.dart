@@ -227,15 +227,15 @@ class _SpinWheelState extends State<SpinWheel> {
   }
 
   @override
-  Widget build(BuildContext context) {
+    Widget build(BuildContext context) {
     return Stack(
-      children: [
-        Scaffold(
-          backgroundColor: Colors.black,
-          appBar: AppBar(
-            leading: IconButton(
-              icon: Icon(Icons.arrow_back),
-              onPressed: () => Navigator.of(context).pop(),
+    children: [
+    Scaffold(
+    backgroundColor: Colors.black,
+    appBar: AppBar(
+    leading: IconButton(
+    icon: Icon(Icons.arrow_back),
+    onPressed: () => Navigator.of(context).pop(),
             ),
           ),
           body: Center(

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:audioplayers/audioplayers.dart';
 import 'package:video_player/video_player.dart';
-import 'games/SM/main.dart' as slot_game;
+import 'games/SM/screen.dart' as slot_game;
 import 'games/SW/spinwheel.dart' as spinwheel;
 import 'games/MM/main.dart' as memory_match;
 
@@ -196,7 +196,7 @@ class _ArcadeHomeState extends State<ArcadeHome> {
                 SliverToBoxAdapter(
                   child: buildGameCarousel(context, [
                     buildGameButton(context, 'Spin&Win', 'assets/images/logo_1.png', spinwheel.SpinWheel()),
-                    buildGameButton(context, 'GoldenSlots', 'assets/images/logo_2.png', slot_game.MyNewApp()),
+                    buildGameButton(context, 'GoldenSlots', 'assets/images/logo_2.png', slot_game.Slot()),
                     buildGameButton(context, 'Match Master', 'assets/images/logo_3.png', memory_match.MyApp()),
                     buildGameButton(context, 'Drive Through', 'assets/images/logo_placeholder.png', null),
                   ]),
@@ -222,7 +222,7 @@ class _ArcadeHomeState extends State<ArcadeHome> {
                     mainAxisSpacing: 20,
                     children: [
                       buildGameButton(context, 'Spin&Win', 'assets/images/logo_1.png', spinwheel.SpinWheel()),
-                      buildGameButton(context, 'GoldenSlots', 'assets/images/logo_2.png', slot_game.MyNewApp()),
+                      buildGameButton(context, 'GoldenSlots', 'assets/images/logo_2.png', slot_game.Slot()),
                       buildGameButton(context, 'Match Master', 'assets/images/logo_3.png', memory_match.MyApp()),
                       buildGameButton(context, 'Drive Through', 'assets/images/logo_placeholder.png', null),
                     ],

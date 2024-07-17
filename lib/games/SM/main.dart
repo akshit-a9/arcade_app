@@ -22,7 +22,7 @@ class MyNewApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: MyApp(),  // Create an instance of MyApp defined in screen.dart
+      home: Slot(),  // Create an instance of MyApp defined in screen.dart
       debugShowCheckedModeBanner: false
     );
   }

@@ -19,7 +19,7 @@ class Assets {
   static const watermelonIc = 'assets/images/watermelon.svg';
 }
 
-class MyApp extends StatelessWidget {
+class Slot extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -124,9 +124,7 @@ class _MyHomePageState extends State<MyHomePage> {
         leading: IconButton(
           icon: Icon(Icons.arrow_back, color: Color.fromARGB(255, 255, 235, 119)),
           iconSize: 30.0,
-            onPressed: () {
-              Navigator.of(context).popUntil((route) => route.isFirst);
-            }
+          onPressed: () => Navigator.of(context).pop(),
 
 
 
