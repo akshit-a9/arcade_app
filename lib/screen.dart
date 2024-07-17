@@ -1,12 +1,13 @@
-import 'dart:math';
 import 'dart:async';
+import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'roll_slot.dart';
-import 'roll_slot_controller.dart';
+import 'games/SM/roll_slot.dart';
+import 'games/SM/roll_slot_controller.dart';
 import 'scoreboard.dart';
 import 'package:audioplayers/audioplayers.dart';
+import 'main.dart' as maine;
 
 class Assets {
   static const seventhIc = 'assets/images/777.svg';
@@ -30,6 +31,9 @@ class Slot extends StatelessWidget {
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
       home: MyHomePage(title: 'Slot Machine'),
+      routes: {
+        'ArcadeHome': (context) => maine.ArcadeHome(),
+      },
     );
   }
 }
@@ -66,7 +70,7 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   void initState() {
     super.initState();
-    _slotspinAudioplayer.setSourceUrl('sounds/slotspin.mp3'); 
+    _slotspinAudioplayer.setSourceUrl('sounds/slotspin.mp3');
   }
 
   void _updateScore() {
@@ -76,7 +80,7 @@ class _MyHomePageState extends State<MyHomePage> {
       prizesList[_rollSlotController2.centerIndex],
     ];
     _scoreBoardKey.currentState?.updateScore(centerImages);
-    if (spinCounter == 7 || spinCounter == 7) {
+    if (spinCounter == 7) {
       spinCounter = 0; // Reset the counter after the specific spins
     } else {
       spinCounter++;
@@ -87,7 +91,7 @@ class _MyHomePageState extends State<MyHomePage> {
     _slotspinAudioplayer.seek(Duration.zero);
     _slotspinAudioplayer.play(AssetSource('sounds/slotspin.mp3'));
     int index = _random.nextInt(prizesList.length);
-    bool shouldMatch = spinCounter == 7 || spinCounter == 7;  //every 7th spin is a sure shot reward
+    bool shouldMatch = spinCounter == 7; //every 7th spin is a sure shot reward
 
     _rollSlotController.animateRandomly(
         topIndex: shouldMatch ? index : _random.nextInt(prizesList.length),
@@ -109,7 +113,7 @@ class _MyHomePageState extends State<MyHomePage> {
       _rollSlotController.stop();
       _rollSlotController1.stop();
       _rollSlotController2.stop();
-      Future.delayed( Duration(seconds: 3), () {
+      Future.delayed(Duration(seconds: 3), () {
         _updateScore();
       });
     });
@@ -124,11 +128,13 @@ class _MyHomePageState extends State<MyHomePage> {
         leading: IconButton(
           icon: Icon(Icons.arrow_back, color: Color.fromARGB(255, 255, 235, 119)),
           iconSize: 30.0,
-          onPressed: () => Navigator.of(context).pop(),
-
-
-
+          onPressed: () {
+            // This will pop until 'ArcadeHome' is found; if not found, clear all and push it
+            Navigator.of(context).popUntil((route) => false); // Clears the entire stack
+            Navigator.pushNamed(context, 'ArcadeHome'); // Pushes ArcadeHome as the only route
+          },
         ),
+
       ),
 
       backgroundColor: Colors.black,
@@ -136,7 +142,7 @@ class _MyHomePageState extends State<MyHomePage> {
         children: [
           Center(
             child: Padding(
-              padding: const EdgeInsets.only(left: 8, right: 8, top: 0, bottom: 50), // Move content up by increasing top padding and adding bottom padding
+              padding: const EdgeInsets.only(left: 8, right: 8, top: 0, bottom: 50),
               child: Column(
                 children: [
                   Container(
@@ -182,7 +188,7 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       floatingActionButton: Padding(
-        padding: const EdgeInsets.only(bottom: 20.0), // Move button up by adding bottom padding
+        padding: const EdgeInsets.only(bottom: 20.0),
         child: ElevatedButton(
           onPressed: _spinAllSlots,
           style: ElevatedButton.styleFrom(
@@ -252,4 +258,3 @@ class BuildItem extends StatelessWidget {
     );
   }
 }
-

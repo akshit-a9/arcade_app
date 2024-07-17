@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'memory_match.dart';
+import '../../memory_match.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 
 void main() {

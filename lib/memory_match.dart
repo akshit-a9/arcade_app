@@ -1,13 +1,14 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
-import 'ad_mod_service.dart';
-import 'components/info_card.dart';
-import 'utils/game_utils.dart';
+import 'games/MM/ad_mod_service.dart';
+import 'games/MM/components/info_card.dart';
+import 'games/MM/utils/game_utils.dart';
 import 'package:audioplayers/audioplayers.dart';
 import 'package:vibration/vibration.dart';
 import 'package:confetti/confetti.dart';
 import 'dart:math';
+import 'main.dart' as maine;
 
 
 class MyApp extends StatelessWidget {
@@ -19,6 +20,9 @@ class MyApp extends StatelessWidget {
       title: 'Flutter Demo',
       debugShowCheckedModeBanner: false,
       home: HomeScreen(),
+      routes: {
+        'ArcadeHome': (context) => maine.ArcadeHome(),
+      },
     );
   }
 }
@@ -212,9 +216,9 @@ void _createInterstitialAd(){
           icon: Icon(Icons.arrow_back, color: Color.fromARGB(255, 255, 219, 0)),
           iconSize: 30.0,
           onPressed: () {
-            // Add your navigation logic here
-            Navigator.pop(context); // Example: Return to the previous screen
-            // Navigator.pushNamed(context, '/home'); // Example: Navigate to the home screen if using named routes
+            // This will pop until 'ArcadeHome' is found; if not found, clear all and push it
+            Navigator.of(context).popUntil((route) => false); // Clears the entire stack
+            Navigator.pushNamed(context, 'ArcadeHome'); // Pushes ArcadeHome as the only route
           },
         ),
 
