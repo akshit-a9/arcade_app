@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:audioplayers/audioplayers.dart';
 import 'package:video_player/video_player.dart';
 import 'games/SM/main.dart' as slot_game;
-import 'games/SW//main.dart' as spinwheel;
+import 'games/SW/spinwheel.dart' as spinwheel;
 import 'games/MM/main.dart' as memory_match;
 
 void main() {
@@ -18,6 +18,9 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
       ),
       home: VideoSplashScreen(),
+    routes: {
+      '/homies': (context) => ArcadeHome(),
+    }
     );
   }
 }
@@ -192,7 +195,7 @@ class _ArcadeHomeState extends State<ArcadeHome> {
                 ),
                 SliverToBoxAdapter(
                   child: buildGameCarousel(context, [
-                    buildGameButton(context, 'Spin&Win', 'assets/images/logo_1.png', spinwheel.MyApp()),
+                    buildGameButton(context, 'Spin&Win', 'assets/images/logo_1.png', spinwheel.SpinWheel()),
                     buildGameButton(context, 'GoldenSlots', 'assets/images/logo_2.png', slot_game.MyNewApp()),
                     buildGameButton(context, 'Match Master', 'assets/images/logo_3.png', memory_match.MyApp()),
                     buildGameButton(context, 'Drive Through', 'assets/images/logo_placeholder.png', null),
@@ -218,7 +221,7 @@ class _ArcadeHomeState extends State<ArcadeHome> {
                     crossAxisSpacing: 20,
                     mainAxisSpacing: 20,
                     children: [
-                      buildGameButton(context, 'Spin&Win', 'assets/images/logo_1.png', spinwheel.MyApp()),
+                      buildGameButton(context, 'Spin&Win', 'assets/images/logo_1.png', spinwheel.SpinWheel()),
                       buildGameButton(context, 'GoldenSlots', 'assets/images/logo_2.png', slot_game.MyNewApp()),
                       buildGameButton(context, 'Match Master', 'assets/images/logo_3.png', memory_match.MyApp()),
                       buildGameButton(context, 'Drive Through', 'assets/images/logo_placeholder.png', null),

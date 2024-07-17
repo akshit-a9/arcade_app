@@ -231,7 +231,7 @@ class _SpinWheelState extends State<SpinWheel> {
     return Stack(
       children: [
         Scaffold(
-          backgroundColor: Colors.black38,
+          backgroundColor: Colors.black,
           appBar: AppBar(
             leading: IconButton(
               icon: Icon(Icons.arrow_back),

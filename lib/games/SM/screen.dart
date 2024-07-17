@@ -118,6 +118,21 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Colors.black,
+        title: null,
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back, color: Color.fromARGB(255, 255, 235, 119)),
+          iconSize: 30.0,
+            onPressed: () {
+              Navigator.of(context).popUntil((route) => route.isFirst);
+            }
+
+
+
+        ),
+      ),
+
       backgroundColor: Colors.black,
       body: Stack(
         children: [
@@ -239,3 +254,4 @@ class BuildItem extends StatelessWidget {
     );
   }
 }
+
