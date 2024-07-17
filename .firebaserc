@@ -1,0 +1,8 @@
+{
+  "projects": {
+    "spinwheel": "spinwheel-ee5cd"
+  },
+  "targets": {},
+  "etags": {},
+  "dataconnectEmulatorConfig": {}
+}
