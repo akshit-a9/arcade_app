@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
+import 'coins.dart';
 import 'games/MM/ad_mod_service.dart';
 import 'games/MM/components/info_card.dart';
 import 'games/MM/utils/game_utils.dart';
@@ -51,6 +52,7 @@ class _HomeScreenState extends State<HomeScreen> {
   //game stats
   int tries = 0;
   int score = 0;
+  int points = 0;
   InterstitialAd? _interstitialAd;
 
   @override
@@ -126,14 +128,12 @@ void _createInterstitialAd(){
     });
   }
 
-
   void showWinnerDialog() {
     Future.delayed(Duration(seconds: 4), () {
       if (!isMuted) {
         _winningAudioplayer.seek(Duration.zero);
         _winningAudioplayer.play(AssetSource('sounds/level-passed.mp3'));
       }
-      
       showDialog(
         context: context,
         barrierDismissible: false,
@@ -175,8 +175,9 @@ void _createInterstitialAd(){
           );
         },
       );
-
+      points = ((score * 10)/tries) as int;
        _confettiController.play();
+      CoinManager.addPoints(points).then((_){});
 
       Future.delayed(Duration(seconds: 3), () {
         if (Navigator.of(context).canPop()) {
@@ -210,17 +211,17 @@ void _createInterstitialAd(){
     return Scaffold(
       backgroundColor: Color.fromARGB(255, 38, 53, 93), //background colour
       appBar: AppBar(
-        title: null,
-        backgroundColor: Color.fromARGB(255, 38, 53, 93),
-        leading: IconButton(
-          icon: Icon(Icons.arrow_back, color: Color.fromARGB(255, 255, 219, 0)),
-          iconSize: 30.0,
-          onPressed: () {
-            // This will pop until 'ArcadeHome' is found; if not found, clear all and push it
-            Navigator.of(context).popUntil((route) => false); // Clears the entire stack
-            Navigator.pushNamed(context, 'ArcadeHome'); // Pushes ArcadeHome as the only route
-          },
-        ),
+      backgroundColor: Color.fromARGB(255, 38, 53, 93),
+      title: Text("Total Points: $points", style: TextStyle(color: Colors.yellow)),
+      //   leading: IconButton(
+      //     icon: Icon(Icons.arrow_back, color: Color.fromARGB(255, 255, 219, 0)),
+      //     iconSize: 30.0,
+      //     onPressed: () {
+      //       // This will pop until 'ArcadeHome' is found; if not found, clear all and push it
+      //       Navigator.of(context).popUntil((route) => false); // Clears the entire stack
+      //       Navigator.pushNamed(context, 'ArcadeHome'); // Pushes ArcadeHome as the only route
+      //     },
+      //   ),
 
         actions: [
           IconButton(

@@ -41,48 +41,49 @@ class DefaultFirebaseOptions {
   }
 
   static const FirebaseOptions web = FirebaseOptions(
-    apiKey: 'AIzaSyB7H2Ex5jFtZTGVQPxhY3LTaUlm1K9ylXQ',
-    appId: '1:748562652968:web:20367f1ec20a66763c3a1d',
-    messagingSenderId: '748562652968',
-    projectId: 'slot-machine-8c7f7',
-    authDomain: 'slot-machine-8c7f7.firebaseapp.com',
-    storageBucket: 'slot-machine-8c7f7.appspot.com',
-    measurementId: 'G-QVQSHVQERM',
+    apiKey: 'AIzaSyDz6PP3DCDsTkok8mR5w98gqpH-ccJQHus',
+    appId: '1:667574110438:web:dc427f8a1a78e83613d327',
+    messagingSenderId: '667574110438',
+    projectId: 'arcade-68d28',
+    authDomain: 'arcade-68d28.firebaseapp.com',
+    storageBucket: 'arcade-68d28.appspot.com',
+    measurementId: 'G-5SBSH7VR9G',
   );
 
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyDAS1_HJb3fMtka49goy3az1E1eu1ZLCCg',
-    appId: '1:748562652968:android:a3e88650a2d59e313c3a1d',
-    messagingSenderId: '748562652968',
-    projectId: 'slot-machine-8c7f7',
-    storageBucket: 'slot-machine-8c7f7.appspot.com',
+    apiKey: 'AIzaSyACXBnNiTWvYVLwlmltTjZxsISyza-U-O8',
+    appId: '1:667574110438:android:ad7db636d9241db013d327',
+    messagingSenderId: '667574110438',
+    projectId: 'arcade-68d28',
+    storageBucket: 'arcade-68d28.appspot.com',
   );
 
   static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: 'AIzaSyB_RmzQkhpndkmkPDXf49luaArfNmEd9oQ',
-    appId: '1:748562652968:ios:0db7223edb5409043c3a1d',
-    messagingSenderId: '748562652968',
-    projectId: 'slot-machine-8c7f7',
-    storageBucket: 'slot-machine-8c7f7.appspot.com',
+    apiKey: 'AIzaSyDsWOmv1fSn88hIrbDMrZ_EsxdnDmFg6bc',
+    appId: '1:667574110438:ios:dcc94a25afe14b2d13d327',
+    messagingSenderId: '667574110438',
+    projectId: 'arcade-68d28',
+    storageBucket: 'arcade-68d28.appspot.com',
     iosBundleId: 'com.example.arcadeApp',
   );
 
   static const FirebaseOptions macos = FirebaseOptions(
-    apiKey: 'AIzaSyB_RmzQkhpndkmkPDXf49luaArfNmEd9oQ',
-    appId: '1:748562652968:ios:0db7223edb5409043c3a1d',
-    messagingSenderId: '748562652968',
-    projectId: 'slot-machine-8c7f7',
-    storageBucket: 'slot-machine-8c7f7.appspot.com',
+    apiKey: 'AIzaSyDsWOmv1fSn88hIrbDMrZ_EsxdnDmFg6bc',
+    appId: '1:667574110438:ios:dcc94a25afe14b2d13d327',
+    messagingSenderId: '667574110438',
+    projectId: 'arcade-68d28',
+    storageBucket: 'arcade-68d28.appspot.com',
     iosBundleId: 'com.example.arcadeApp',
   );
 
   static const FirebaseOptions windows = FirebaseOptions(
-    apiKey: 'AIzaSyB7H2Ex5jFtZTGVQPxhY3LTaUlm1K9ylXQ',
-    appId: '1:748562652968:web:20367f1ec20a66763c3a1d',
-    messagingSenderId: '748562652968',
-    projectId: 'slot-machine-8c7f7',
-    authDomain: 'slot-machine-8c7f7.firebaseapp.com',
-    storageBucket: 'slot-machine-8c7f7.appspot.com',
-    measurementId: 'G-QVQSHVQERM',
+    apiKey: 'AIzaSyDz6PP3DCDsTkok8mR5w98gqpH-ccJQHus',
+    appId: '1:667574110438:web:0c6050e2bdac3b2113d327',
+    messagingSenderId: '667574110438',
+    projectId: 'arcade-68d28',
+    authDomain: 'arcade-68d28.firebaseapp.com',
+    storageBucket: 'arcade-68d28.appspot.com',
+    measurementId: 'G-YBQBXVEQW3',
   );
+
 }

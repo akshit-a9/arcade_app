@@ -7,6 +7,7 @@ import 'games/SM/roll_slot.dart';
 import 'games/SM/roll_slot_controller.dart';
 import 'scoreboard.dart';
 import 'package:audioplayers/audioplayers.dart';
+import 'coins.dart'; // Assuming coins.dart handles coin management
 import 'main.dart' as maine;
 
 class Assets {
@@ -48,6 +49,7 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+  bool isMuted = false;
   final _rollSlotController = RollSlotController();
   final _rollSlotController1 = RollSlotController();
   final _rollSlotController2 = RollSlotController();
@@ -71,6 +73,12 @@ class _MyHomePageState extends State<MyHomePage> {
   void initState() {
     super.initState();
     _slotspinAudioplayer.setSourceUrl('sounds/slotspin.mp3');
+    _updateVolume();
+  }
+
+  void _updateVolume() {
+    double volume = isMuted ? 0.0 : 1.0;
+    _slotspinAudioplayer.setVolume(volume);
   }
 
   void _updateScore() {
@@ -87,26 +95,71 @@ class _MyHomePageState extends State<MyHomePage> {
     }
   }
 
-  void _spinAllSlots() {
+  void _spinAllSlots() async {
+    if (spinCounter == 0) {
+      _performSpin();
+    } else {
+      bool confirmed = await showDialog(
+        context: context,
+        builder: (context) => AlertDialog(
+          title: Text('Spin the Slot Machine'),
+          content: Text('It will cost 30 coins to spin the slot machine. Do you want to proceed?'),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.pop(context, false),
+              child: Text('Cancel'),
+            ),
+            TextButton(
+              onPressed: () => Navigator.pop(context, true),
+              child: Text('Proceed'),
+            ),
+          ],
+        ),
+      );
+
+      if (confirmed) {
+        bool hasEnoughCoins = await CoinManager.deductCoins(30);
+        if (!hasEnoughCoins) {
+          showDialog(
+            context: context,
+            builder: (context) => AlertDialog(
+              title: Text('Not Enough Coins'),
+              content: Text('You do not have enough coins to spin the slot machine.'),
+              actions: [
+                TextButton(
+                  onPressed: () => Navigator.pop(context),
+                  child: Text('OK'),
+                ),
+              ],
+            ),
+          );
+          return;
+        }
+        _performSpin();
+      }
+    }
+  }
+
+  void _performSpin() {
     _slotspinAudioplayer.seek(Duration.zero);
     _slotspinAudioplayer.play(AssetSource('sounds/slotspin.mp3'));
     int index = _random.nextInt(prizesList.length);
-    bool shouldMatch = spinCounter == 7; //every 7th spin is a sure shot reward
+    bool shouldMatch = spinCounter == 7; // every 7th spin is a sure shot reward
 
     _rollSlotController.animateRandomly(
-        topIndex: shouldMatch ? index : _random.nextInt(prizesList.length),
-        centerIndex: shouldMatch ? index : _random.nextInt(prizesList.length),
-        bottomIndex: shouldMatch ? index : _random.nextInt(prizesList.length)
+      topIndex: shouldMatch ? index : _random.nextInt(prizesList.length),
+      centerIndex: shouldMatch ? index : _random.nextInt(prizesList.length),
+      bottomIndex: shouldMatch ? index : _random.nextInt(prizesList.length),
     );
     _rollSlotController1.animateRandomly(
-        topIndex: shouldMatch ? index : _random.nextInt(prizesList.length),
-        centerIndex: shouldMatch ? index : _random.nextInt(prizesList.length),
-        bottomIndex: shouldMatch ? index : _random.nextInt(prizesList.length)
+      topIndex: shouldMatch ? index : _random.nextInt(prizesList.length),
+      centerIndex: shouldMatch ? index : _random.nextInt(prizesList.length),
+      bottomIndex: shouldMatch ? index : _random.nextInt(prizesList.length),
     );
     _rollSlotController2.animateRandomly(
-        topIndex: shouldMatch ? index : _random.nextInt(prizesList.length),
-        centerIndex: shouldMatch ? index : _random.nextInt(prizesList.length),
-        bottomIndex: shouldMatch ? index : _random.nextInt(prizesList.length)
+      topIndex: shouldMatch ? index : _random.nextInt(prizesList.length),
+      centerIndex: shouldMatch ? index : _random.nextInt(prizesList.length),
+      bottomIndex: shouldMatch ? index : _random.nextInt(prizesList.length),
     );
 
     Timer(Duration(seconds: 3), () {
@@ -117,6 +170,7 @@ class _MyHomePageState extends State<MyHomePage> {
         _updateScore();
       });
     });
+    spinCounter++;
   }
 
   @override
@@ -134,9 +188,18 @@ class _MyHomePageState extends State<MyHomePage> {
             Navigator.pushNamed(context, 'ArcadeHome'); // Pushes ArcadeHome as the only route
           },
         ),
-
+        actions: [
+          IconButton(
+            icon: Icon(isMuted ? Icons.volume_off : Icons.volume_up, color: Colors.white),
+            onPressed: () {
+              setState(() {
+                isMuted = !isMuted;
+                _updateVolume();  // Update volume each time the mute state changes
+              });
+            },
+          ),
+        ],
       ),
-
       backgroundColor: Colors.black,
       body: Stack(
         children: [

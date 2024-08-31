@@ -1,12 +1,13 @@
 import 'dart:io';
+import 'package:arcade_app/coins.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_fortune_wheel/flutter_fortune_wheel.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:confetti/confetti.dart';
 import 'package:audioplayers/audioplayers.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class AdHelper {
   static String get interstitialAdUnitId {
@@ -32,92 +33,72 @@ class _SpinWheelState extends State<SpinWheel> {
   Map<String, dynamic> rewards = {};
   List<Map<String, dynamic>> items = [];
   String buttonText = "SPIN";
+  bool isMuted = false;
   InterstitialAd? _interstitialAd;
   int _numInterstitialLoadAttempts = 0;
   int maxFailedLoadAttempts = 3;
+  int totalPoints = 0;
   final _controller = ConfettiController(duration: Duration(seconds: 2));
   final player1 = AudioPlayer();
   final player2 = AudioPlayer();
   final player3 = AudioPlayer();
+  int clickCount = 0;
 
   @override
   void initState() {
     super.initState();
     _createInterstitialAd();
     _fetchRewards();
-
+    _resetPoints();
     player1.setSource(AssetSource('sounds/wheel2.mp3'));
     player2.setSource(AssetSource('sounds/win.mp3'));
     player3.setSource(AssetSource('sounds/lose.mp3'));
+    _updateVolume();
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+  }
+
+  void _updateVolume() {
+    double volume = isMuted ? 0.0 : 1.0;
+    player1.setVolume(volume);
+    player2.setVolume(volume);
+    player3.setVolume(volume);
+  }
+
+  void _updatePoints(int points) async {
+    totalPoints += points;
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setInt('totalPoints', totalPoints);
+    setState(() {});
+  }
+
+  void _resetPoints() async {
+    totalPoints = 0;
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setInt('totalPoints', totalPoints);
+    setState(() {});
   }
 
   Future<void> _fetchRewards() async {
-    try {
-      QuerySnapshot querySnapshot = await FirebaseFirestore.instance.collection(
-          'Rewards').get();
-      List<Map<String, dynamic>> fetchedItems = querySnapshot.docs.map((doc) {
-        Map<String, dynamic> data = doc.data() as Map<String, dynamic>;
-        return {
-          "name": data['name'] ?? "No Name",
-          "value": data['value'] ?? 0,
-          "image": data['image'] ?? "https://example.com/default_image.png",
-          "coupon": data['coupon'] ?? "No Coupon" // Change key to coupon
-        };
-      }).toList();
+    List<Map<String, dynamic>> predefinedRewards = [
+      {"name": "10 Points", "value": 10},
+      {"name": "20 Points", "value": 20},
+      {"name": "30 Points", "value": 30},
+      {"name": "40 Points", "value": 40},
+      {"name": "50 Points", "value": 50},
+      {"name": "100 Points", "value": 100},
+      {"name": "200 Points", "value": 200},
+      {"name": "300 Points", "value": 300},
+      {"name": "400 Points", "value": 400},
+      {"name": "500 Points", "value": 500},
+    ];
 
-      if (fetchedItems.isEmpty) {
-        // Provide some default rewards if none are found in Firestore
-        fetchedItems = [
-          {
-            "name": "Better Luck next time",
-            "value": 0,
-            "image": "https://example.com/default_image.png",
-            "coupon": "No Coupon"
-          },
-          {
-            "name": "10 Points",
-            "value": 10,
-            "image": "https://example.com/10_points.png",
-            "coupon": "COUPON10"
-          },
-          {
-            "name": "20 Points",
-            "value": 20,
-            "image": "https://example.com/20_points.png",
-            "coupon": "COUPON20"
-          },
-        ];
-      }
+    items = (predefinedRewards..shuffle()).take(5).toList();
 
-      setState(() {
-        items = fetchedItems;
-      });
-    } catch (e) {
-      print('Failed to fetch rewards: $e');
-      // Provide some default rewards in case of an error
-      setState(() {
-        items = [
-          {
-            "name": "Better Luck next time",
-            "value": 0,
-            "image": "https://example.com/default_image.png",
-            "coupon": "No Coupon"
-          },
-          {
-            "name": "10 Points",
-            "value": 10,
-            "image": "https://example.com/10_points.png",
-            "coupon": "COUPON10"
-          },
-          {
-            "name": "20 Points",
-            "value": 20,
-            "image": "https://example.com/20_points.png",
-            "coupon": "COUPON20"
-          },
-        ];
-      });
-    }
+    setState(() {});
   }
 
   void _createInterstitialAd() {
@@ -172,44 +153,57 @@ class _SpinWheelState extends State<SpinWheel> {
     _interstitialAd = null;
   }
 
-  @override
-  void dispose() {
-    _interstitialAd?.dispose();
-    selected.close();
-    _controller.dispose();
-    player1.dispose();
-    player2.dispose();
-    player3.dispose();
-    super.dispose();
+  void _handleButtonClick() async {
+    if (clickCount == 0) {
+      _spinWheel();
+    } else {
+      bool confirmed = await showDialog(
+        context: context,
+        builder: (context) => AlertDialog(
+          title: Text('Spin the Wheel'),
+          content: Text('It will cost 30 coins to spin the wheel. Do you want to proceed?'),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.pop(context, false),
+              child: Text('Cancel'),
+            ),
+            TextButton(
+              onPressed: () => Navigator.pop(context, true),
+              child: Text('Proceed'),
+            ),
+          ],
+        ),
+      );
+
+      if (confirmed) {
+        bool hasEnoughCoins = await CoinManager.deductCoins(30);
+        if (hasEnoughCoins) {
+          _spinWheel();
+        } else {
+          showDialog(
+            context: context,
+            builder: (context) => AlertDialog(
+              title: Text('Not Enough Coins'),
+              content: Text('You do not have enough coins to spin the wheel.'),
+              actions: [
+                TextButton(
+                  onPressed: () => Navigator.pop(context),
+                  child: Text('OK'),
+                ),
+              ],
+            ),
+          );
+        }
+      }
+    }
   }
 
-  int clickCount = 0;
-
-  void _handleButtonClick() {
+  void _spinWheel() {
     setState(() {
-      print('Click Count ' + clickCount.toString());
-      if (clickCount == 3) {
-        clickCount = 0;
-        buttonText = "WATCH AD";
-      } else {
-        buttonText = "SPIN";
-      }
-    });
-
-    if (buttonText == "WATCH AD") {
-      if (_interstitialAd != null) {
-        _showInterstitialAd();
-      } else {
-        print("No ad loaded yet, retrying...");
-        _createInterstitialAd();
-      }
-    } else {
-      setState(() {
-        player1.play(AssetSource('sounds/wheel2.mp3'));
-        selected.add(Fortune.randomInt(0, items.length));
-      });
+      player1.play(AssetSource('sounds/wheel2.mp3'));
+      selected.add(Fortune.randomInt(0, items.length));
       clickCount++;
-    }
+    });
   }
 
   List<Color> _colors = [
@@ -227,17 +221,30 @@ class _SpinWheelState extends State<SpinWheel> {
   }
 
   @override
-    Widget build(BuildContext context) {
+  Widget build(BuildContext context) {
     return Stack(
-    children: [
-    Scaffold(
-    backgroundColor: Colors.black,
-    appBar: AppBar(
-      backgroundColor: Colors.black,
-      leading: IconButton(
-      icon: Icon(Icons.arrow_back, color: Color.fromARGB(255, 255, 235, 119)),
-      onPressed: () => Navigator.of(context).pop(),
+      children: [
+        Scaffold(
+          backgroundColor: Colors.black,
+          appBar: AppBar(
+            backgroundColor: Colors.black,
+            title: Text("Total Points: $totalPoints", style: TextStyle(color: Colors.yellow)),
+            leading: IconButton(
+              icon: Icon(Icons.arrow_back, color: Color.fromARGB(255, 255, 235, 119)),
+              onPressed: () => Navigator.of(context).pop(),
             ),
+            actions: [
+              IconButton(
+                icon: Icon(isMuted ? Icons.volume_off : Icons.volume_up, color: Color.fromARGB(255, 255, 219, 0)),
+                iconSize: 30.0,
+                onPressed: () {
+                  setState(() {
+                    isMuted = !isMuted;
+                    _updateVolume();
+                  });
+                },
+              ),
+            ],
           ),
           body: Center(
             child: Column(
@@ -245,11 +252,11 @@ class _SpinWheelState extends State<SpinWheel> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Padding(
-                  padding: const EdgeInsets.only(top: 10.0), // Move the GIF up
+                  padding: const EdgeInsets.only(top: 0.0),
                   child: Image.asset(
                     'assets/images/Spinwheel.gif',
-                    height: 100, // Increased height
-                    width: 320, // Increased width
+                    height: 100,
+                    width: 320,
                   ),
                 ),
                 if (items.isEmpty)
@@ -257,7 +264,7 @@ class _SpinWheelState extends State<SpinWheel> {
                 else
                   if (items.length > 1)
                     SizedBox(
-                      height: 350,
+                      height: 300,
                       child: FortuneWheel(
                         selected: selected.stream,
                         animateFirst: false,
@@ -284,28 +291,24 @@ class _SpinWheelState extends State<SpinWheel> {
                           setState(() {
                             rewards = items[selected.value];
                           });
-                          print(rewards);
-                          if (rewards['value'] == 0 ||
-                              rewards['name'].toLowerCase().contains(
-                                  'better luck next time')) {
+                          if (rewards['value'] > 0) {
+                            _updatePoints(rewards['value']);
+                            _controller.play();
+                            player2.play(AssetSource('sounds/win.mp3'));
+                            CoinManager.addPoints(rewards['value']).then((_) {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(
+                                  content: Text("You just won ${rewards['name']}! Total points now updated."),
+                                  backgroundColor: Colors.blueAccent,
+                                ),
+                              );
+                            });
+                          } else {
                             player3.play(AssetSource('sounds/lose.mp3'));
                             ScaffoldMessenger.of(context).showSnackBar(
                               SnackBar(
                                 content: Text("Better luck next time!"),
                                 backgroundColor: Colors.red,
-                              ),
-                            );
-                          } else {
-                            _controller.play();
-                            player2.play(AssetSource('sounds/win.mp3'));
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(
-                                content: Text(
-                                    "You just won ${rewards['name']}"),
-                                backgroundColor: Colors.blueAccent,
-                                behavior: SnackBarBehavior.floating,
-                                margin: EdgeInsets.all(50),
-                                elevation: 30,
                               ),
                             );
                           }
@@ -314,75 +317,19 @@ class _SpinWheelState extends State<SpinWheel> {
                             builder: (BuildContext context) {
                               return AlertDialog(
                                 shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.all(
-                                      Radius.circular(20.0)),
+                                  borderRadius: BorderRadius.all(Radius.circular(20.0)),
                                 ),
                                 backgroundColor: Colors.deepPurpleAccent,
-                                contentPadding: EdgeInsets.symmetric(
-                                    horizontal: 20.0),
+                                contentPadding: EdgeInsets.symmetric(horizontal: 20.0),
                                 content: Container(
                                   child: Column(
                                     mainAxisSize: MainAxisSize.min,
                                     children: [
-                                      if (rewards['value'] == 0 ||
-                                          rewards['name']
-                                              .toLowerCase()
-                                              .contains(
-                                              'better luck next time')) ...[
-                                        SizedBox(height: 10),
-                                        Text(
-                                          rewards['name'] ?? "No Name",
-                                          style: TextStyle(
-                                              fontSize: 18,
-                                              fontWeight: FontWeight.bold,
-                                              color: Colors.white),
-                                        ),
-                                      ] else
-                                        ...[
-                                          SizedBox(height: 10),
-                                          Text(
-                                            rewards['name'] ?? "No Name",
-                                            style: TextStyle(
-                                                fontSize: 18,
-                                                fontWeight: FontWeight.bold,
-                                                color: Colors.white),
-                                          ),
-                                          SizedBox(height: 10),
-                                          Row(
-                                            children: [
-                                              Expanded(
-                                                child: Text(
-                                                  "Coupon: ${rewards['coupon']}",
-                                                  style: TextStyle(
-                                                      fontSize: 16,
-                                                      fontWeight: FontWeight
-                                                          .bold,
-                                                      color: Colors.white),
-                                                ),
-                                              ),
-                                              IconButton(
-                                                icon: Icon(
-                                                  Icons.copy,
-                                                  color: Colors.white,
-                                                ),
-                                                onPressed: () {
-                                                  Clipboard.setData(
-                                                      ClipboardData(
-                                                          text: rewards['coupon']));
-                                                  ScaffoldMessenger.of(context)
-                                                      .showSnackBar(
-                                                    SnackBar(
-                                                      content: Text(
-                                                          "Coupon copied to clipboard!"),
-                                                      backgroundColor: Colors
-                                                          .blue,
-                                                    ),
-                                                  );
-                                                },
-                                              ),
-                                            ],
-                                          ),
-                                        ],
+                                      SizedBox(height: 10),
+                                      Text(
+                                        rewards['name'] ?? "No Name",
+                                        style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.white),
+                                      ),
                                     ],
                                   ),
                                 ),
@@ -391,10 +338,7 @@ class _SpinWheelState extends State<SpinWheel> {
                                     onPressed: () {
                                       Navigator.of(context).pop();
                                     },
-                                    child: Text(
-                                      "Close",
-                                      style: TextStyle(color: Colors.white),
-                                    ),
+                                    child: Text("Close", style: TextStyle(color: Colors.white)),
                                   ),
                                 ],
                               );
@@ -409,7 +353,7 @@ class _SpinWheelState extends State<SpinWheel> {
                         ],
                       ),
                     ),
-                SizedBox(height: 40),
+                SizedBox(height: 20),
                 GestureDetector(
                   onTap: _handleButtonClick,
                   child: Container(
